@@ -8,6 +8,7 @@ import pytz
 import subprocess
 from datetime import datetime
 from time import time
+from dotenv import load_dotenv
 from pyrogram import Client, filters, enums
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import FloodWait, MessageNotModified, MessageIdInvalid, PeerIdInvalid, UserIsBlocked, InputUserDeactivated, UserDeactivatedBan, ChatWriteForbidden, ChatAdminRequired, RPCError
