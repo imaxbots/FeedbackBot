@@ -16,3 +16,5 @@ tenacity
 telegraph
 wikipedia
 flask==2.0.1
+fastapi
+uvicorn
