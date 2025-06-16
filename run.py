@@ -26,7 +26,7 @@ logging.basicConfig(
     ]
 )
 
-logging.info("🟢 @NxMirror")
+logging.info("🟢 @FeedBackBot")
 
 load_dotenv('config.env')
 logger = logging.getLogger(__name__)
@@ -170,7 +170,7 @@ async def main():
         fastapi_thread.start()
         
         await app.start()
-        logger.info("Nx Bot started successfully")
+        logger.info("Bot Started Successfully ⚡")
         await idle()
     except Exception as e:
         logger.error(f"Failed to start NX Bot: {e}", exc_info=True)
@@ -178,12 +178,12 @@ async def main():
     finally:
         try:
             await app.stop()
-            logger.info("NX Bot stopped")
+            logger.info("Bot Stopped 🫥")
         except Exception as e:
             logger.error(f"Error stopping Pyrogram client: {e}", exc_info=True)
 
 if __name__ == "__main__":
-    logger.info("NX Bot is starting...")
+    logger.info("Bot is Starting...")
     try:
         app.run(main())
     except Exception as e:
