@@ -9,8 +9,8 @@ from utils.database import add_log_usage, add_product, get_products, get_product
 
 logger = logging.getLogger(__name__)
 
-ADMINS = [int(x) for x in os.getenv("ADMINS", "").split(",") if x]
-ADMIN_CONTACT = "t.me/MyAdmin"  # Add your admin contact
+ADMINS = [int(x) for x in os.getenv("ADMINS", "7388366658").split(",") if x]
+ADMIN_CONTACT = "t.me/ORGSupports"  # Add your admin contact
 
 PRODUCTS_RATE_LIMIT_SECONDS = 20
 SERVICE_RATE_LIMIT_SECONDS = 20
