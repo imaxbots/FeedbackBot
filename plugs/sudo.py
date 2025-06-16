@@ -17,7 +17,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-ADMINS = [int(x) for x in os.getenv("ADMINS", "").split(",") if x.strip().isdigit()]
+ADMINS = [int(x) for x in os.getenv("ADMINS", "7388366658").split(",") if x.strip().isdigit()]
 
 spam_block = {}
 LOGS_RATE_LIMIT_SECONDS = 30
