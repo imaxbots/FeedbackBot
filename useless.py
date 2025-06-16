@@ -18,5 +18,5 @@ async def web_server():
 
 if __name__ == "__main__":
 
-    port = int(os.getenv("PORT", 10000)) 
+    port = int(os.getenv("PORT", 8080)) 
     web.run_app(web_server(), port=port)
