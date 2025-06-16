@@ -3,6 +3,7 @@ import os
 import shutil
 import logging
 from pyrogram import Client, filters, enums
+from dotenv import load_dotenv
 from pyrogram.types import Message, User, BotCommand, BotCommandScopeDefault, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import FloodWait, RPCError
 from pymongo.errors import PyMongoError
