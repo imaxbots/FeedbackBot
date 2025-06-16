@@ -3,6 +3,7 @@ import os
 import logging
 import re
 from pyrogram import Client, filters, enums
+from dotenv import load_dotenv
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import FloodWait, MessageNotModified, MessageIdInvalid, PeerIdInvalid, UserIsBlocked, InputUserDeactivated, UserDeactivatedBan, ChatWriteForbidden, ChatAdminRequired, RPCError
 from utils.database import add_log_usage, add_product, get_products, get_product, edit_product, remove_product, clear_products
