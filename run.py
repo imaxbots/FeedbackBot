@@ -10,9 +10,7 @@ from pyrogram.types import Message
 from utils.buttons import parse_buttons
 from utils.database import get_keyword_response_map
 from formats import script
-from aiohttp import web
 
-# Configure logging
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
 
@@ -27,10 +25,8 @@ logging.basicConfig(
 
 logging.info("🟢 @Feedback")
 
-# Load environment variables
 load_dotenv('config.env')
 logger = logging.getLogger(__name__)
-
 try:
     logger.info("Loading environment variables")
     API_ID = int(os.getenv("API"))
@@ -40,24 +36,10 @@ try:
     ADMINS = [int(x) for x in os.getenv("ADMINS", "").split(",") if x.strip().isdigit()]
     FAQ_ENABLED = os.getenv("FAQ", "False").lower() == "true"
     IMG_CLOUD = os.getenv("IMG_CLOUD", "False").lower() == "true"
-    PORT = int(os.getenv("PORT", 8080))  # For Koyeb health checks
     logger.info(f"ADMINS loaded: {ADMINS}")
 except Exception as e:
     logger.error(f"Error loading environment variables: {e}", exc_info=True)
     raise
-
-# Create a simple web server for health checks
-async def health_check(request):
-    return web.Response(text="OK")
-
-async def start_web_server():
-    app = web.Application()
-    app.router.add_get('/healthz', health_check)
-    runner = web.AppRunner(app)
-    await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', PORT)
-    await site.start()
-    logger.info(f"Health check server started on port {PORT}")
 
 try:
     logger.info("Initializing Pyrogram client")
@@ -79,7 +61,7 @@ except Exception as e:
     "users", "keyword", "keywords", "clearkeywords", "delkeyword", "save", "listcallbacks", "delcallback", "clearcallbacks", "wiki", "news", 
     "buy", "prodects", "prodect", "sale", "addservice", "editservice", "listservices", "removeservice", "cleanservices", "ocr", "telegraphtxt",
     "telegraph", "getcmds", "help"
-]))
+])) #Add Accordingly 
 async def handle_all_messages(client: Client, message: Message):
     try:
         logger.info(f"Received message from user {message.from_user.id}")
@@ -169,20 +151,9 @@ async def handle_admin_reply(client: Client, message: Message):
 async def main():
     try:
         logger.info("Starting NX Bot")
-        
-        # Start the health check server
-        await start_web_server()
-        
-        # Start the Pyrogram client
         await app.start()
-        
-        # Get bot info to confirm it's running
-        me = await app.get_me()
-        logger.info(f"Bot Started successfully as @{me.username}")
-        
-        # Keep the bot running
+        logger.info("Bot Started successfully")
         await idle()
-        
     except Exception as e:
         logger.error(f"Failed to start Bot: {e}", exc_info=True)
         raise
@@ -196,9 +167,7 @@ async def main():
 if __name__ == "__main__":
     logger.info("Bot is Starting...")
     try:
-        # Create event loop and run the main function
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
+        app.run(main())
     except Exception as e:
         logger.error(f"Error running bot: {e}", exc_info=True)
         raise
