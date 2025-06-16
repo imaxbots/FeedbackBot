@@ -10,6 +10,9 @@ from pyrogram.types import Message
 from utils.buttons import parse_buttons
 from utils.database import get_keyword_response_map
 from formats import script
+from fastapi import FastAPI
+import uvicorn
+from threading import Thread
 
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
@@ -23,7 +26,7 @@ logging.basicConfig(
     ]
 )
 
-logging.info("🟢 @Feedback")
+logging.info("🟢 @NxMirror")
 
 load_dotenv('config.env')
 logger = logging.getLogger(__name__)
@@ -36,10 +39,21 @@ try:
     ADMINS = [int(x) for x in os.getenv("ADMINS", "").split(",") if x.strip().isdigit()]
     FAQ_ENABLED = os.getenv("FAQ", "False").lower() == "true"
     IMG_CLOUD = os.getenv("IMG_CLOUD", "False").lower() == "true"
+    PORT = int(os.getenv("PORT", 8000))
     logger.info(f"ADMINS loaded: {ADMINS}")
 except Exception as e:
     logger.error(f"Error loading environment variables: {e}", exc_info=True)
     raise
+
+# Create FastAPI app for health checks
+app_web = FastAPI()
+
+@app_web.get("/")
+async def health_check():
+    return {"status": "ok", "bot": "running"}
+
+def run_fastapi():
+    uvicorn.run(app_web, host="0.0.0.0", port=PORT)
 
 try:
     logger.info("Initializing Pyrogram client")
@@ -151,21 +165,25 @@ async def handle_admin_reply(client: Client, message: Message):
 async def main():
     try:
         logger.info("Starting NX Bot")
+        # Start FastAPI server in a separate thread
+        fastapi_thread = Thread(target=run_fastapi, daemon=True)
+        fastapi_thread.start()
+        
         await app.start()
-        logger.info("Bot Started successfully")
+        logger.info("Nx Bot started successfully")
         await idle()
     except Exception as e:
-        logger.error(f"Failed to start Bot: {e}", exc_info=True)
+        logger.error(f"Failed to start NX Bot: {e}", exc_info=True)
         raise
     finally:
         try:
             await app.stop()
-            logger.info("Bot Stopped")
+            logger.info("NX Bot stopped")
         except Exception as e:
             logger.error(f"Error stopping Pyrogram client: {e}", exc_info=True)
 
 if __name__ == "__main__":
-    logger.info("Bot is Starting...")
+    logger.info("NX Bot is starting...")
     try:
         app.run(main())
     except Exception as e:
