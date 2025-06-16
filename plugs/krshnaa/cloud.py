@@ -123,9 +123,9 @@ async def c_upload(client: Client, message: Message):
 
             await safe_edit(
                 processing,
-                f"<blockquote>Successfully Uploaded:</blockquote>\n\n{url}\n\n<blockquote>Made By @NxMirror</blockquote>",
+                f"<blockquote>Successfully Uploaded:</blockquote>\n\n{url}\n\n<blockquote>Made By @AdultXPrime</blockquote>",
                 reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton("Updates ⚡", url="https://t.me/NxMirror")]
+                    [InlineKeyboardButton("Updates ⚡", url="https://t.me/adultxprime")]
                 ])
             )
             logger.info("Upload successful", extra=logger_context)
