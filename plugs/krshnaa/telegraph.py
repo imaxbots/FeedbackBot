@@ -19,8 +19,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-TELEGRAPH_AUTHOR_NAME = os.getenv("TELEGRAPH_AUTHOR_NAME", "@NxMirror")
-TELEGRAPH_AUTHOR_URL = os.getenv("TELEGRAPH_AUTHOR_URL", "https://t.me/NxMirror")
+TELEGRAPH_AUTHOR_NAME = os.getenv("TELEGRAPH_AUTHOR_NAME", "@AdultXPrime")
+TELEGRAPH_AUTHOR_URL = os.getenv("TELEGRAPH_AUTHOR_URL", "https://t.me/AdultXPrime")
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY")
 IMG_CLOUD = os.getenv("IMG_CLOUD", "False").lower() == "true"
 MAX_FILE_SIZE = 5 * 1024 * 1024
@@ -206,7 +206,7 @@ async def publish_to_telegraph(client: Client, message: Message):
 
         try:
             result = await telegraph.create_page(
-                title="@NxMirror",
+                title="@AdultXPrime",
                 content=content,
                 user_id=user_id
             )
@@ -214,10 +214,10 @@ async def publish_to_telegraph(client: Client, message: Message):
             logger.info(f"Published to Telegraph: {url}", extra=logger_context)
             await safe_edit(
                 processing,
-                f"<blockquote>Published to Telegraph:</blockquote>\n\n{url}\n\n<blockquote>Made By @NxMirror</blockquote>",
+                f"<blockquote>Published to Telegraph:</blockquote>\n\n{url}\n\n<blockquote>Made By @AdultXPrime</blockquote>",
                 reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton("View Page", url=url)],
-                    [InlineKeyboardButton("Updates ⚡", url="https://t.me/NxMirror")]
+                    [InlineKeyboardButton("Updates ⚡", url="https://t.me/AdultXPrime")]
                 ])
             )
         except Exception as e:
@@ -273,7 +273,7 @@ async def publish_image_to_telegraph(client: Client, message: Message):
             await safe_reply(message, "❌ Only image files (JPEG, PNG, GIF, BMP) are supported.")
             return
 
-    title = message.text.strip().replace("@NxMirror ", "", 1) or "@NxMirror"
+    title = message.text.strip().replace("@AdultXPrime ", "", 1) or "@AdultXPrime"
     processing = None
     file_path = None
     try:
@@ -331,10 +331,10 @@ async def publish_image_to_telegraph(client: Client, message: Message):
             logger.info(f"Published image to Telegraph: {url}", extra=logger_context)
             await safe_edit(
                 processing,
-                f"<blockquote>Published to Telegraph:</blockquote>\n\n{url}\n\n<blockquote>Made By @NxMirror</blockquote>",
+                f"<blockquote>Published to Telegraph:</blockquote>\n\n{url}\n\n<blockquote>Made By @AdultXPrime</blockquote>",
                 reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton("View Image", url=url)],
-                    [InlineKeyboardButton("Updates ⚡", url="https://t.me/NxMirror")]
+                    [InlineKeyboardButton("Updates ⚡", url="https://t.me/AdultXPrime")]
                 ])
             )
         except Exception as e:
