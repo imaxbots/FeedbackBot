@@ -489,6 +489,7 @@ async def product_detail_callback(client: Client, callback_query: CallbackQuery)
 
             output = (
                 f"🎯 Product Details\n\n"
+                f"<b>"
                 f"<blockquote>🏷️ <b>Name:</b> {product['name']}</blockquote>\n\n"
                 f"<blockquote>📖 <b>Description:</b> {product['description']}</blockquote>\n\n"
                 f"<blockquote>💰 <b>Price:</b> {product['price']}</blockquote>\n\n"
@@ -496,6 +497,7 @@ async def product_detail_callback(client: Client, callback_query: CallbackQuery)
             )
             if product.get('preview_url'):
                 output += f"\n\n🖼️ <b>Preview:</b> <a href=\"{product['preview_url']}\">View</a>"
+            output += "</b>"
 
             buttons = [
                 [InlineKeyboardButton("💎 Buy Now", callback_data="qr_info")],
