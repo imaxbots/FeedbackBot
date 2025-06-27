@@ -556,7 +556,55 @@ async def product_detail_callback(client: Client, callback_query: CallbackQuery)
         if user_id in spam_block:
             spam_block.pop(user_id, None)
             logger.debug("Rate limit cleared for product_detail", extra=logger_context)
+            
+@Client.on_callback_query(filters.regex(r"qr_info"))
+async def qr_info_callback(client: Client, callback_query: CallbackQuery):
+    user_id = callback_query.from_user.id
+    logger_context = add_user_context(user_id)
 
+    try:
+        now = asyncio.get_event_loop().time()
+        if user_id in spam_block and now - spam_block[user_id] < CALLBACK_RATE_LIMIT_SECONDS:
+            logger.info("Rate limit hit for qr_info callback", extra=logger_context)
+            await callback_query.answer("🖐 Please wait before viewing QR info.", show_alert=True)
+            return
+        spam_block[user_id] = now
+
+        logger.info("QR info callback triggered", extra=logger_context)
+        
+        # Get QR code image URL and UPI text from environment variables
+        qr_code_url = os.getenv("QR_CODE_URL", "https://telegra.ph/file/a37cde4fbf7facf36e80d.jpg")
+        upi_text = os.getenv("UPI_TEXT", "Scan the QR Code to Make Payment.\n\nAfter Successful Payment, Take a Screenshot and Send it to This Bot! 👇👇")
+
+        if not qr_code_url:
+            await callback_query.answer("❌ QR code not configured.", show_alert=True)
+            return
+
+        buttons = [
+            [InlineKeyboardButton('🚫 Close 🚫', callback_data='close_products')]
+        ]
+
+        try:
+            await callback_query.message.reply_photo(
+                photo=qr_code_url,
+                caption=f"💳 Payment Information\n\n{upi_text}",
+                reply_markup=InlineKeyboardMarkup(buttons),
+                quote=True
+            )
+            await callback_query.answer("✅ QR code sent!")
+            logger.info("QR code sent successfully", extra=logger_context)
+        except Exception as e:
+            logger.error(f"Failed to send QR code: {e}", extra=logger_context)
+            await callback_query.answer("❌ Failed to send QR code.", show_alert=True)
+
+    except Exception as e:
+        logger.error(f"Fatal error in qr_info_callback: {e}", extra=logger_context)
+        await callback_query.answer("❌ An unexpected error occurred.", show_alert=True)
+    finally:
+        if user_id in spam_block:
+            spam_block.pop(user_id, None)
+            logger.debug("Rate limit cleared for qr_info", extra=logger_context)
+            
 @Client.on_callback_query(filters.regex(r"back_products"))
 async def back_products_callback(client: Client, callback_query: CallbackQuery):
     user_id = callback_query.from_user.id
