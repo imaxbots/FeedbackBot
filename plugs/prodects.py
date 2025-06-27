@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 
 ADMINS = [int(x) for x in os.getenv("ADMINS", "7388366658").split(",") if x]
 
-PRODUCTS_RATE_LIMIT_SECONDS = 05
-SERVICE_RATE_LIMIT_SECONDS = 05
-CALLBACK_RATE_LIMIT_SECONDS = 05
+PRODUCTS_RATE_LIMIT_SECONDS = 5
+SERVICE_RATE_LIMIT_SECONDS = 5
+CALLBACK_RATE_LIMIT_SECONDS = 5
 spam_block = {}
 
 async def safe_reply(message: Message, text: str, reply_markup=None, parse_mode=None, quote: bool = False):
