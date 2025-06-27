@@ -488,15 +488,15 @@ async def product_detail_callback(client: Client, callback_query: CallbackQuery)
                 return
 
             output = (
-                f"🎯 Product Details\n\n"
+                f"<b>🎯 Product Details</b>\n\n"
                 f"<b>"
                 f"<blockquote>🏷️ <b>Name:</b> {product['name']}</blockquote>\n\n"
                 f"<blockquote>📖 <b>Description:</b> {product['description']}</blockquote>\n\n"
                 f"<blockquote>💰 <b>Price:</b> {product['price']}</blockquote>\n\n"
-                f"<blockquote>✔️ <b>Status:</b> {product['availability']}</blockquote>"
+                f"<blockquote>✔️ <b>Status:</b> {product['availability']}</blockquote>\n\n"
             )
             if product.get('preview_url'):
-                output += f"\n\n🖼️ <b>Preview:</b> <a href=\"{product['preview_url']}\">View</a>"
+                output += f"🖼️ <b>Preview:</b> <a href=\"{product['preview_url']}\">View</a>"
             output += "</b>"
 
             buttons = [
@@ -576,7 +576,7 @@ async def qr_info_callback(client: Client, callback_query: CallbackQuery):
         
         # Get QR code image URL and UPI text from environment variables
         qr_code_url = os.getenv("QR_CODE_URL", "https://telegra.ph/file/a37cde4fbf7facf36e80d.jpg")
-        upi_text = os.getenv("UPI_TEXT", "Scan the QR Code to Make Payment.\n\nAfter Successful Payment, Take a Screenshot and Send it to This Bot! 👇👇")
+        upi_text = os.getenv("UPI_TEXT", "<b>Scan the QR Code to Make Payment.\n\nAfter Successful Payment, Take a Screenshot and Send it to This Bot! 👇👇</b>")
 
         if not qr_code_url:
             await callback_query.answer("❌ QR code not configured.", show_alert=True)
@@ -589,7 +589,7 @@ async def qr_info_callback(client: Client, callback_query: CallbackQuery):
         try:
             await callback_query.message.reply_photo(
                 photo=qr_code_url,
-                caption=f"💳 Payment Information\n\n{upi_text}",
+                caption=f"💳 <b><u>Payment Information</u></b>\n\n{upi_text}",
                 reply_markup=InlineKeyboardMarkup(buttons),
                 quote=True
             )
