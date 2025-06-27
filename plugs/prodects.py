@@ -11,11 +11,10 @@ from utils.database import add_log_usage, add_product, get_products, get_product
 logger = logging.getLogger(__name__)
 
 ADMINS = [int(x) for x in os.getenv("ADMINS", "7388366658").split(",") if x]
-ADMIN_CONTACT = "t.me/ORGSupports"  # Add your admin contact
 
-PRODUCTS_RATE_LIMIT_SECONDS = 20
-SERVICE_RATE_LIMIT_SECONDS = 20
-CALLBACK_RATE_LIMIT_SECONDS = 20
+PRODUCTS_RATE_LIMIT_SECONDS = 05
+SERVICE_RATE_LIMIT_SECONDS = 05
+CALLBACK_RATE_LIMIT_SECONDS = 05
 spam_block = {}
 
 async def safe_reply(message: Message, text: str, reply_markup=None, parse_mode=None, quote: bool = False):
@@ -490,18 +489,16 @@ async def product_detail_callback(client: Client, callback_query: CallbackQuery)
 
             output = (
                 f"🎯 Product Details\n\n"
-                f"<blockquote>"
-                f"🏷️ <b>Name:</b> {product['name']}\n"
-                f"📖 <b>Description:</b> {product['description']}\n"
-                f"💰 <b>Price:</b> {product['price']}\n"
-                f"✔️ <b>Status:</b> {product['availability']}"
+                f"<blockquote>🏷️ <b>Name:</b> {product['name']}</blockquote>\n\n"
+                f"<blockquote>📖 <b>Description:</b> {product['description']}</blockquote>\n\n"
+                f"<blockquote>💰 <b>Price:</b> {product['price']}</blockquote>\n\n"
+                f"<blockquote>✔️ <b>Status:</b> {product['availability']}</blockquote>"
             )
             if product.get('preview_url'):
-                output += f"\n🖼️ <b>Preview:</b> <a href=\"{product['preview_url']}\">View</a>"
-            output += "</blockquote>"
+                output += f"\n\n🖼️ <b>Preview:</b> <a href=\"{product['preview_url']}\">View</a>"
 
             buttons = [
-                [InlineKeyboardButton("📞 Contact Admin", url=ADMIN_CONTACT)],
+                [InlineKeyboardButton("💎 Buy Now", callback_data="qr_info")],
                 [InlineKeyboardButton("🔗 Back", callback_data="back_products")],
                 [InlineKeyboardButton("🔒 Close", callback_data="close_products")]
             ]
